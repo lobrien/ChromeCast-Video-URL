@@ -8,8 +8,6 @@ using MonoTouch.CoreGraphics;
 using ChromeCast;
 using System.Threading.Tasks;
 
-
-
 namespace SingleFileSolution
 {
 	public class TypedArgs<T> : EventArgs 
@@ -243,8 +241,6 @@ namespace SingleFileSolution
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-
-
 			
 			var view = new CastAnUrlView();
 			view.CastRequested += (o,e) => {
@@ -253,9 +249,9 @@ namespace SingleFileSolution
 			};
 
 			chromeCaster = new ChromeCaster();
+			chromeCaster.SessionCreated += (s,e) => view.CastEnable(true);
 			//Want to be explicit about this need: bg thread segfaults
 			InvokeOnMainThread(() => chromeCaster.Initialize());
-			chromeCaster.SessionCreated += (s,e) => view.CastEnable(true);
 					
 			this.View = view;
 		}
